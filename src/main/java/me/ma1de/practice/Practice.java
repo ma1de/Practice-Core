@@ -13,6 +13,7 @@ import com.mongodb.client.MongoDatabase;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.arena.ArenaHandler;
+import me.ma1de.practice.gui.GuiHandler;
 import me.ma1de.practice.kit.KitHandler;
 import me.ma1de.practice.lobby.LobbyItemHandler;
 import me.ma1de.practice.match.MatchHandler;
@@ -32,6 +33,7 @@ public class Practice extends JavaPlugin {
     private KitHandler kitHandler;
     private MatchHandler matchHandler;
     private LobbyItemHandler lobbyItemHandler;
+    private GuiHandler guiHandler;
 
     @Override @SneakyThrows
     @SuppressWarnings("deprecated")
@@ -53,6 +55,7 @@ public class Practice extends JavaPlugin {
         kitHandler = new KitHandler();
         matchHandler = new MatchHandler();
         lobbyItemHandler = new LobbyItemHandler();
+        guiHandler = new GuiHandler();
 
         lobbyItemHandler.init();
         
