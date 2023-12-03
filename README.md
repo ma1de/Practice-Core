@@ -21,7 +21,8 @@ so you can restart the server and your data is not gonna be lost.<br>
 MongoDB <br>
 Spigot API (1.20.1) <br>
 Java (^18) <br>
-Maven 
+Maven<br>
+(Not required, but recommended) Linux
 
 # 👨 Contribution
 Make a PR and I will review it.
