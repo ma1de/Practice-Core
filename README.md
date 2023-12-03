@@ -13,6 +13,8 @@ so you can restart the server and your data is not gonna be lost.<br>
 [TODO] Queue system (Ranked and Unranked)<br>
 <br>
 [TODO] GUI for managing arenas, kits, matches, etc.<br>
+<br>
+[TODO] Tournaments, events
 
 # ✅ Requirements
 > [!NOTE]
