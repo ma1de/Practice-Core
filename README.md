@@ -2,7 +2,7 @@
 Practice core made for Minecraft
 
 > [!WARNING]
-> This wasn't meant for a production server. 
+> This wasn't meant for a production server.<br> 
 > If you decide to use it on your server then, please, bug test and edit the source code if needed.
 
 # Requirements
@@ -18,5 +18,5 @@ Maven
 Make a PR and I will review it.
 
 > [!NOTE]
-> I am aware that the code might not be the best
+> I am aware that the code might not be the best<br>
 > This wasn't meant to be a serious project
