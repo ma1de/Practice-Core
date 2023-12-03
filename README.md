@@ -11,6 +11,8 @@ Kit system, arena system, match system - everything is saved in MongoDB<br>
 so you can restart the server and your data is not gonna be lost.<br>
 <br>
 [TODO] Queue system (Ranked and Unranked)<br>
+<br>
+[TODO] GUI for managing arenas, kits, matches, etc.<br>
 
 # ✅ Requirements
 > [!NOTE]
