@@ -16,3 +16,7 @@ Maven
 
 # Contribution
 Make a PR and I will review it.
+
+> [!NOTE]
+> I am aware that the code might not be the best
+> This wasn't meant to be a serious project
