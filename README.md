@@ -1,7 +1,7 @@
 # ⚡ Practice
 Practice core made for Minecraft
 
-> [!WARNING]
+> [!IMPORTANT]
 > This wasn't meant for a production server.<br> 
 > If you decide to use it on your server then, please, bug test and edit the source code if needed.<br>
 > This code wasn't tested
