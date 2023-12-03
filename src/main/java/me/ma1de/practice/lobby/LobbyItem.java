@@ -12,6 +12,7 @@ import lombok.Getter;
 public abstract class LobbyItem {
     private String id, displayName;
     private Material material;
+    private int invPosition;
     private boolean enabled;
 
     public abstract void handle(Player player);
