@@ -58,6 +58,7 @@ public class Practice extends JavaPlugin {
         guiHandler = new GuiHandler();
 
         lobbyItemHandler.init();
+        guiHandler.init();
         
         for (Class<? extends Listener> clazz : new Reflections("me.ma1de.practice.listener").getSubTypesOf(Listener.class)) {
             Bukkit.getPluginManager().registerEvents(clazz.newInstance(), this);
