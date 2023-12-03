@@ -6,6 +6,10 @@ Practice core made for Minecraft
 > If you decide to use it on your server then, please, bug test and edit the source code if needed.<br>
 > This code wasn't tested
 
+# ⭐ Features
+> Kit system, arena system, match system - everything is saved in MongoDB<br>
+> so you can restart the server and your data is not gonna be lost.<br>
+
 # ✅ Requirements
 > [!NOTE]
 > This list is gonna be updated
