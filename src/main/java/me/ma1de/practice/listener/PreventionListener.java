@@ -1,5 +1,7 @@
 package me.ma1de.practice.listener;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,6 +34,8 @@ public class PreventionListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
+        event.getPlayer().teleport(new Location(Bukkit.getWorld("world"), 0, 70, 0));
+
         event.setJoinMessage("");
     }
 
