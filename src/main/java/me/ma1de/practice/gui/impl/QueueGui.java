@@ -15,12 +15,11 @@ import me.ma1de.practice.gui.Gui;
 import me.ma1de.practice.gui.GuiButton;
 import me.ma1de.practice.kit.Kit;
 import me.ma1de.practice.queue.Queue;
+import me.ma1de.practice.util.CC;
 
 @Getter @AllArgsConstructor
 public class QueueGui implements Gui {
     private boolean ranked;
-
-    private final Inventory inv = Bukkit.createInventory(null, 27, (ranked ? "Ranked " : "Unranked ") + "Queue");
 
     @Override
     public String getId() {
@@ -86,9 +85,44 @@ public class QueueGui implements Gui {
     }
 
     public void open(Player player) {
-       player.closeInventory();
+        Inventory inv = Bukkit.createInventory(null, 27, (ranked ? "Ranked " : "Unranked ") + "Queue");
+        player.closeInventory();
 
-       player.openInventory(inv);
-       Practice.getInstance().getGuiHandler().getOpenGuis().put(player.getUniqueId(), this);
+        for (GuiButton button : getButtons()) {
+           inv.addItem(button.toStack()); 
+        }
+
+        if (inv.isEmpty()) {
+            inv.addItem(new GuiButton(){
+                @Override
+                public String getId() {
+                    return "placeholder";
+                }
+
+                @Override
+                public String getDisplayName() {
+                    return CC.translate("&cThere are no queues available.");
+                }
+
+                @Override
+                public Material getMaterial() {
+                    return Material.BARRIER;
+                }
+
+                @Override
+                public void handle(Player player) {
+                    player.sendMessage(CC.translate("&cThere are no queues available."));
+                    player.closeInventory();
+                }
+
+                @Override
+                public boolean isEnabled() {
+                    return true;
+                }
+            }.toStack());
+        }
+
+        player.openInventory(inv);
+        Practice.getInstance().getGuiHandler().getOpenGuis().put(player.getUniqueId(), this);
     }
 }

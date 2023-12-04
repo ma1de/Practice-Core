@@ -16,7 +16,7 @@ import me.ma1de.practice.Practice;
 public class PreventionListener implements Listener {
     @EventHandler
     public void onBuild(BlockPlaceEvent event) {
-        if (!event.getPlayer().isOp()) {
+        if (event.getPlayer().isOp()) {
             return;
         }
 
@@ -25,7 +25,7 @@ public class PreventionListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!event.getPlayer().isOp()) {
+        if (event.getPlayer().isOp()) {
             return;
         }
 

@@ -20,13 +20,8 @@ public class LobbyItemHandler {
     @SneakyThrows
     public void init() {
         for (Class<? extends LobbyItem> clazz : new Reflections("me.ma1de.practice.lobby.impl").getSubTypesOf(LobbyItem.class)) {
-            LobbyItem item = clazz.newInstance();
-
-            if (!item.isEnabled()) {
-                continue;
-            }
-
-            items.add(item);
+            System.out.println(clazz.getSimpleName() + " is registered");
+            items.add(clazz.newInstance());
         }
     }
 }

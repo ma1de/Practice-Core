@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import me.ma1de.practice.Practice;
 import me.ma1de.practice.lobby.LobbyItem;
+import me.ma1de.practice.util.CC;
 
 public class LobbyItemListener implements Listener {
     @EventHandler
@@ -19,7 +20,8 @@ public class LobbyItemListener implements Listener {
             return;
         }
 
-        if (Practice.getInstance().getLobbyItemHandler().getItems().stream().noneMatch(item -> item.toStack().isSimilar(event.getItem()))) {
+        if (Practice.getInstance().getLobbyItemHandler().getItems().stream()
+                .noneMatch(item -> CC.strip(item.toStack().getItemMeta().getDisplayName()).equalsIgnoreCase(CC.strip(event.getItem().getItemMeta().getDisplayName())))) {
             return;
         }
 
