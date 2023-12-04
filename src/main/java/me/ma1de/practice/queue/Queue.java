@@ -34,7 +34,13 @@ public class Queue {
      * =>
      * ... (loop)
      * =>
-     * [] - empty queue list
+     * [] || [player1] - queue list with no or 1 players
+     *
+     * Explanation:
+     * Every time there are more then 2 players in the queue
+     * we get a pair of the first and the last player in 
+     * that queue and send them into a match. We do that
+     * until the queue is empty or there is 1 player left.
      *
      * Issues of this algorithm:
      * - If the amount of players queueing is odd, there's always going to be
