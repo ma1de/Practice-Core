@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import me.ma1de.practice.Practice;
 import me.ma1de.practice.kit.Kit;
 import me.ma1de.practice.match.Match;
+import me.ma1de.practice.util.CC;
 import me.ma1de.practice.util.Pair;
 
 @Getter @AllArgsConstructor
@@ -24,13 +26,13 @@ public class Queue {
      * Gets first and the last player in the queueing list.
      *
      * Example of this queueing algorithm:
-     * [player1, player2, player3, player4, player5, player6] - list of players queueing
+     * [player1, ..., playerN] - list of players queueing, playerN representing the last player in the list
      * =>
-     * [player1, player6] - pair
+     * [player1, playerN] - pair
      * =>
-     * Match([player1, player6])
+     * Match([player1, playerN])
      * =>
-     * [player2, player3, player4, player5] - list of players queueing
+     * [player1, ..., playerN] - list of players queueing
      * =>
      * ... (loop)
      * =>
@@ -59,6 +61,15 @@ public class Queue {
         pair.setSecond(queueing.get(queueing.size() - 1));
 
         return pair;
+    }
+
+    public void addPlayer(UUID uuid) {
+        if (queueing.contains(uuid)) return;
+        if (Bukkit.getPlayer(uuid) == null) return;
+
+        queueing.add(uuid);
+
+        Bukkit.getPlayer(uuid).sendMessage(CC.translate("&cYou are now queueing for " + kit.getDisplayName() + (ranked ? " Ranked" : " Unranked")));
     }
 
     public void start() {

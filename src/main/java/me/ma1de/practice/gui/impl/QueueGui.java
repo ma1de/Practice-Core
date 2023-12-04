@@ -12,6 +12,7 @@ import me.ma1de.practice.Practice;
 import me.ma1de.practice.gui.Gui;
 import me.ma1de.practice.gui.GuiButton;
 import me.ma1de.practice.kit.Kit;
+import me.ma1de.practice.queue.Queue;
 
 @Getter @AllArgsConstructor
 public class QueueGui implements Gui {
@@ -58,12 +59,11 @@ public class QueueGui implements Gui {
 
                @Override
                public void handle(Player player) {
-                   if (ranked) {
-                       Practice.getInstance().getQueueHandler().getRankedQueue(kit.getId()).getQueueing().add(player.getUniqueId());
-                       return;
-                   }
+                   Queue queue = (ranked 
+                           ? Practice.getInstance().getQueueHandler().getRankedQueue(kit.getId()) 
+                           : Practice.getInstance().getQueueHandler().getUnrankedQueue(kit.getId()));
 
-                   Practice.getInstance().getQueueHandler().getUnrankedQueue(kit.getId()).getQueueing().add(player.getUniqueId());
+                   queue.addPlayer(player.getUniqueId());
                }
 
                @Override

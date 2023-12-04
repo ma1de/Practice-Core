@@ -48,5 +48,7 @@ public class QueueHandler {
                 addQueue(new Queue(kit.getId(), kit, Lists.newArrayList(), true, true));
             }
         }
+
+        queues.stream().forEach(Queue::start);
     }
 }
