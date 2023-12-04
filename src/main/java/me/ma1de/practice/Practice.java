@@ -17,6 +17,7 @@ import me.ma1de.practice.gui.GuiHandler;
 import me.ma1de.practice.kit.KitHandler;
 import me.ma1de.practice.lobby.LobbyItemHandler;
 import me.ma1de.practice.match.MatchHandler;
+import me.ma1de.practice.queue.QueueHandler;
 
 @Getter
 public class Practice extends JavaPlugin {
@@ -34,6 +35,7 @@ public class Practice extends JavaPlugin {
     private MatchHandler matchHandler;
     private LobbyItemHandler lobbyItemHandler;
     private GuiHandler guiHandler;
+    private QueueHandler queueHandler;
 
     @Override @SneakyThrows
     @SuppressWarnings("deprecated")
@@ -56,6 +58,7 @@ public class Practice extends JavaPlugin {
         matchHandler = new MatchHandler();
         lobbyItemHandler = new LobbyItemHandler();
         guiHandler = new GuiHandler();
+        queueHandler = new QueueHandler();
 
         lobbyItemHandler.init();
         guiHandler.init();

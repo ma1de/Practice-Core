@@ -73,8 +73,9 @@ public class Queue {
                 Match match = new Match(Practice.getInstance().getArenaHandler().getRandomArena(), kit, firstTeam, secondTeam, 0, 0, ranked, false);
 
                 Practice.getInstance().getMatchHandler().addMatch(match);
+
                 match.start();
             }
-        };
+        }.runTaskAsynchronously(Practice.getInstance());
     }
 }
