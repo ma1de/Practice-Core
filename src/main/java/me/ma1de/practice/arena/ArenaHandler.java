@@ -1,6 +1,7 @@
 package me.ma1de.practice.arena;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bson.Document;
 
@@ -19,6 +20,10 @@ public class ArenaHandler {
 
     public Arena getArena(String id) {
         return arenas.stream().filter(arena -> arena.getId().equals(id)).findAny().orElse(null);
+    }
+    
+    public Arena getRandomArena() {
+        return arenas.get(ThreadLocalRandom.current().nextInt(0, arenas.size() - 1));
     }
 
     public void addArena(Arena arena) {
