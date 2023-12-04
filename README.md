@@ -10,7 +10,7 @@ Practice core made for Minecraft
 Kit system, arena system, match system - everything is saved in MongoDB<br>
 so you can restart the server and your data is not gonna be lost.<br>
 <br>
-[TODO] Queue system (Ranked and Unranked)<br>
+Queue system (Ranked and Unranked) with a unique algorithm<br>
 <br>
 [TODO] GUI for managing arenas, kits, matches, etc.<br>
 <br>
