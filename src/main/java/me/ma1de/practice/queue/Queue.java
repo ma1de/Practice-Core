@@ -34,7 +34,7 @@ public class Queue {
      * =>
      * ... (loop)
      * =>
-     * [] || [player1] - queue list with no or 1 players
+     * [] || [player1] - queue list with no or 1 player
      *
      * Explanation:
      * Every time there are more then 2 players in the queue
