@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import lombok.Getter;
-import me.ma1de.practice.Practice;
+import me.ma1de.practice.gui.impl.QueueGui;
 import me.ma1de.practice.lobby.LobbyItem;
 import me.ma1de.practice.util.CC;
 
@@ -25,6 +25,6 @@ public class QueueItem extends LobbyItem {
 
     @Override
     public void handle(Player player) {
-        Practice.getInstance().getGuiHandler().getGui("unranked");
+        new QueueGui(ranked).open(player);
     }
 }
