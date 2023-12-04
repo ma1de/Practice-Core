@@ -58,7 +58,12 @@ public class QueueGui implements Gui {
 
                @Override
                public void handle(Player player) {
-                   // TODO
+                   if (ranked) {
+                       Practice.getInstance().getQueueHandler().getRankedQueue(kit.getId()).getQueueing().add(player.getUniqueId());
+                       return;
+                   }
+
+                   Practice.getInstance().getQueueHandler().getUnrankedQueue(kit.getId()).getQueueing().add(player.getUniqueId());
                }
 
                @Override
