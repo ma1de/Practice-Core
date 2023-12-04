@@ -3,8 +3,10 @@ package me.ma1de.practice.gui.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +19,8 @@ import me.ma1de.practice.queue.Queue;
 @Getter @AllArgsConstructor
 public class QueueGui implements Gui {
     private boolean ranked;
+
+    private final Inventory inv = Bukkit.createInventory(null, 27, (ranked ? "Ranked " : "Unranked ") + "Queue");
 
     @Override
     public String getId() {
@@ -79,5 +83,12 @@ public class QueueGui implements Gui {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void open(Player player) {
+       player.closeInventory();
+
+       player.openInventory(inv);
+       Practice.getInstance().getGuiHandler().getOpenGuis().put(player.getUniqueId(), this);
     }
 }
