@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.arena.ArenaHandler;
 import me.ma1de.practice.gui.GuiHandler;
+import me.ma1de.practice.gui.impl.QueueGui;
 import me.ma1de.practice.kit.KitHandler;
 import me.ma1de.practice.lobby.LobbyItemHandler;
 import me.ma1de.practice.match.MatchHandler;
@@ -61,8 +62,10 @@ public class Practice extends JavaPlugin {
         queueHandler = new QueueHandler();
 
         lobbyItemHandler.init();
-        guiHandler.init();
         queueHandler.init();
+
+        guiHandler.addGui(new QueueGui(true));
+        guiHandler.addGui(new QueueGui(false));
         
         for (Class<? extends Listener> clazz : new Reflections("me.ma1de.practice.listener").getSubTypesOf(Listener.class)) {
             Bukkit.getPluginManager().registerEvents(clazz.newInstance(), this);

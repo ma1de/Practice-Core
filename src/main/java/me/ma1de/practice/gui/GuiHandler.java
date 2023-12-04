@@ -4,13 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.reflections.Reflections;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import lombok.Getter;
-import lombok.SneakyThrows;
 
 @Getter
 public class GuiHandler {
@@ -21,16 +18,11 @@ public class GuiHandler {
         return guis.stream().filter(gui -> gui.getId().equals(id)).findAny().orElse(null);
     }
 
-    @SneakyThrows
-    public void init() {
-        for (Class<? extends Gui> clazz : new Reflections("me.ma1de.practice.gui.impl").getSubTypesOf(Gui.class)) {
-            Gui gui = clazz.newInstance();
-
-            if (!gui.isEnabled()) {
-                continue;
-            }
-
-            guis.add(gui);
+    public void addGui(Gui gui) {
+        if (getGui(gui.getId()) != null) {
+            return;
         }
+
+        guis.add(gui);
     }
 }

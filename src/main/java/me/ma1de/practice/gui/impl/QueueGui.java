@@ -24,7 +24,7 @@ public class QueueGui implements Gui {
 
     @Override
     public String getId() {
-        return "queue";
+        return (ranked ? "ranked" : "unranked");
     }
 
     @Override
