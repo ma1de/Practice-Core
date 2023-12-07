@@ -93,7 +93,7 @@ public class QueueGui implements Gui {
         }
 
         if (inv.isEmpty()) {
-            inv.addItem(new GuiButton(){
+            GuiButton button = new GuiButton(){
                 @Override
                 public String getId() {
                     return "placeholder";
@@ -119,7 +119,10 @@ public class QueueGui implements Gui {
                 public boolean isEnabled() {
                     return true;
                 }
-            }.toStack());
+            };
+
+            getButtons().add(button);
+            inv.addItem(button.toStack());
         }
 
         player.openInventory(inv);

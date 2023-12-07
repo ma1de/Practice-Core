@@ -19,7 +19,12 @@ public class GuiListener implements Listener {
         event.setCancelled(true);
 
         Gui gui = Practice.getInstance().getGuiHandler().getOpenGuis().get(event.getWhoClicked().getUniqueId());
-        gui.getButtons().get(event.getRawSlot()).handle(((Player) event.getWhoClicked()));
+        
+        if (gui.getButtons().get(event.getSlot()) == null) {
+            return;
+        }
+
+        gui.getButtons().get(event.getSlot()).handle(((Player) event.getWhoClicked()));
     }
 
     @EventHandler
