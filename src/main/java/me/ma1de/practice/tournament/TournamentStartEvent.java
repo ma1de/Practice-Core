@@ -1,4 +1,4 @@
-package me.ma1de.practice.event;
+package me.ma1de.practice.tournament;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -6,19 +6,19 @@ import org.bukkit.event.HandlerList;
 import lombok.Getter;
 
 @Getter
-public class EventStart extends Event {
+public class TournamentStartEvent extends Event {
     private static final HandlerList handlerList = new HandlerList();
 
-    private final me.ma1de.practice.event.Event event;
+    private final Tournament tournament;
     private boolean cancelled;
 
-    public EventStart(me.ma1de.practice.event.Event event) {
-        this.event = event;
+    public TournamentStartEvent(Tournament tournament) {
+        this.tournament = tournament;
         this.cancelled = false;
     }
 
-    public EventStart(me.ma1de.practice.event.Event event, boolean cancelled) {
-        this.event = event;
+    public TournamentStartEvent(Tournament tournament, boolean cancelled) {
+        this.tournament = tournament;
         this.cancelled = cancelled;
     }
 
