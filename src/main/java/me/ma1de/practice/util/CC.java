@@ -8,8 +8,4 @@ public class CC {
     public String translate(String x) {
         return ChatColor.translateAlternateColorCodes('&', x);
     }
-
-    public String strip(String x) {
-        return ChatColor.stripColor(x);
-    }
 }
