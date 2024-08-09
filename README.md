@@ -54,6 +54,7 @@ public class Main extends JavaPlugin {
     }
 }
 ```
+or just modify the source code and call the `Practice#registerCustomListener` method in `Practice#onEnable`
 
 # ✅ Requirements
 > [!NOTE]
