@@ -10,6 +10,7 @@ import java.io.*;
 public class FileUtil {
     @SneakyThrows
     public String readFile(File file) {
+        Preconditions.checkArgument(file.exists());
         Preconditions.checkNotNull(file);
 
         StringBuilder builder = new StringBuilder();
@@ -26,6 +27,7 @@ public class FileUtil {
 
     @SneakyThrows
     public void writeToFile(File file, String text) {
+        Preconditions.checkArgument(file.exists());
         Preconditions.checkNotNull(text);
 
         try (PrintWriter writer = new PrintWriter(file)) {
