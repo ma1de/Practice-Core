@@ -18,26 +18,61 @@ Queue system (Ranked and Unranked)
 **Easy way to implement kit logic (ex. Bridges)**
 
 ```java
+import me.ma1de.practice.Practice;
+import me.ma1de.practice.match.Match;
 import me.ma1de.practice.match.event.impl.MatchEndEvent;
 import me.ma1de.practice.match.event.impl.MatchPreStartEvent;
 import me.ma1de.practice.match.event.impl.MatchStartEvent;
+import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
+
+import java.util.Optional;
 
 public class BridgeLogicListener implements Listener {
     @EventHandler
     public void onMatchPreStart(MatchPreStartEvent event) { // Called when the countdown starts, can be cancelled
+        if (!event.getMatch().getLadder().getId().equalsIgnoreCase("bridges")) {
+            return;
+        }
+
         // Do something
     }
 
     @EventHandler
     public void onMatchStart(MatchStartEvent event) { // Called when the countdown ends, ignores org.bukkit.event.Event#isCancelled
+        if (!event.getMatch().getLadder().getId().equalsIgnoreCase("bridges")) {
+            return;
+        }
+
         // Do something
     }
 
     @EventHandler
-    public void onMatchEnd(MatchEndEvent event) { 
+    public void onMatchEnd(MatchEndEvent event) {
+        if (!event.getMatch().getLadder().getId().equalsIgnoreCase("bridges")) {
+            return;
+        }
+
         // Do something
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        Optional<Match> optMatch = Practice.getInstance().getMatchManager().getMatchPlaying(event.getPlayer().getUniqueId());
+
+        if (!optMatch.isPresent()) {
+            return;
+        }
+
+        if (!optMatch.get().getLadder().getId().equalsIgnoreCase("bridges")) {
+            return;
+        }
+
+        if (event.getPlayer().getLocation().getBlock() != null && event.getPlayer().getLocation().getBlock().getType().equals(Material.ENDER_PORTAL)) {
+            // Do something
+        }
     }
 }
 ```
