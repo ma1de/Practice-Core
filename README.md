@@ -9,11 +9,11 @@ Practice core made for Minecraft
 # ⭐ Features
 Data is being saved in both MongoDB and JSON files.
 <br>
-Queue system (Ranked and Unranked)<br>
+Queue system (Ranked and Unranked)
 <br>
-[TODO] GUI for managing arenas, customizable kits, etc.<br>
+[TODO] GUI for managing arenas, customizable kits, etc.
 <br>
-[TODO] Tournaments, events
+[TODO] Kohi tournaments, events
 
 # ✅ Requirements
 > [!NOTE]
