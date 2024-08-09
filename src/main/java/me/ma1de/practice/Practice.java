@@ -104,6 +104,11 @@ public class Practice extends JavaPlugin {
         client.close();
     }
 
+    @SneakyThrows
+    public void registerCustomListener(Class<? extends Listener> clazz) {
+        Bukkit.getPluginManager().registerEvents(clazz.newInstance(), this);
+    }
+
     protected void setupManagers() {
         this.arenaManager = new ArenaManager();
         this.ladderManager = new LadderManager();

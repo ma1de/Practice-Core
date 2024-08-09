@@ -15,6 +15,46 @@ Queue system (Ranked and Unranked)
 <br>
 [TODO] Kohi tournaments, events
 
+**Easy way to implement kit logic (ex. Bridges)**
+
+```java
+import me.ma1de.practice.match.event.impl.MatchEndEvent;
+import me.ma1de.practice.match.event.impl.MatchPreStartEvent;
+import me.ma1de.practice.match.event.impl.MatchStartEvent;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+
+public class BridgeLogicListener implements Listener {
+    @EventHandler
+    public void onMatchPreStart(MatchPreStartEvent event) { // Called when the countdown starts, can be cancelled
+        // Do something
+    }
+
+    @EventHandler
+    public void onMatchStart(MatchStartEvent event) { // Called when the countdown ends, ignores org.bukkit.event.Event#isCancelled
+        // Do something
+    }
+
+    @EventHandler
+    public void onMatchEnd(MatchEndEvent event) { 
+        // Do something
+    }
+}
+```
+
+```java
+import me.ma1de.practice.Practice;
+import me.ma1de.example.listener.BridgeLogicListener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Main extends JavaPlugin {
+    @Override
+    public void onEnable() {
+        Practice.getInstance().registerCustomListener(new BridgeLogicListener());
+    }
+}
+```
+
 # ✅ Requirements
 > [!NOTE]
 > This list is gonna be updated
