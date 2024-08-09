@@ -1,6 +1,5 @@
 package me.ma1de.practice.match;
 
-import com.avaje.ebeaninternal.server.idgen.UuidIdGenerator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -13,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.util.MojangNameLookup;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,6 +27,7 @@ public class Match {
     private final Ladder ladder;
     private final List<MatchTeam> teams;
     private final List<UUID> deadPlayers, spectators;
+    private final List<Block> placedBlocks;
     @Setter private MatchTeam winner;
     @Setter private long startedAt, endedAt;
     private final boolean ranked;
@@ -47,6 +48,7 @@ public class Match {
 
         this.deadPlayers = Lists.newArrayList();
         this.spectators = Lists.newArrayList();
+        this.placedBlocks = Lists.newArrayList();
         this.winner = null;
         this.started = false;
         this.startedAt = 0L;
@@ -85,6 +87,12 @@ public class Match {
     public void addSpectator(UUID uuid, boolean silent) {
         Player player = Bukkit.getPlayer(uuid);
         Preconditions.checkNotNull(player);
+        Preconditions.checkArgument(!getSpectators().contains(uuid));
+
+        if (this.isEnded() && !silent) {
+            player.sendMessage(ChatColor.RED + "You can't spectate this match.");
+            return;
+        }
 
         if ((System.currentTimeMillis() - getStartedAt()) < 5000L) {
             player.sendMessage(ChatColor.RED + "You can't spectate this match yet.");
@@ -131,8 +139,13 @@ public class Match {
         Optional<MatchTeam> optTeam = getTeam(uuid);
 
         Preconditions.checkArgument(optTeam.isPresent());
+        Preconditions.checkArgument(!getSpectators().contains(uuid));
 
         Player player = Bukkit.getPlayer(uuid);
+
+        if (deadPlayers.size() >= optTeam.get().getUuids().size()) {
+            this.endMatch(teams.stream().filter(team -> !team.equals(optTeam.get())).findAny().orElse(null));
+        }
 
         if (player == null) {
             String name = MojangNameLookup.lookupName(uuid);
@@ -153,10 +166,6 @@ public class Match {
 
         player.spigot().respawn();
         this.addSpectator(uuid, true);
-
-        if (deadPlayers.size() >= optTeam.get().getUuids().size()) {
-            this.endMatch(teams.stream().filter(team -> !team.equals(optTeam.get())).findAny().orElse(null));
-        }
     }
 
     public void endMatch(MatchTeam winner) {

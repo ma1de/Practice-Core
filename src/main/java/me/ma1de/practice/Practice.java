@@ -8,9 +8,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.arena.ArenaManager;
+import me.ma1de.practice.duel.DuelHandler;
 import me.ma1de.practice.ladder.LadderManager;
 import me.ma1de.practice.manager.StorageManagerDatabase;
 import me.ma1de.practice.manager.StorageManagerFile;
+import me.ma1de.practice.match.MatchManager;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
@@ -33,6 +37,8 @@ public class Practice extends JavaPlugin {
 
     private ArenaManager arenaManager;
     private LadderManager ladderManager;
+    private MatchManager matchManager;
+    private DuelHandler duelHandler;
 
     @Override
     @SneakyThrows
@@ -65,6 +71,14 @@ public class Practice extends JavaPlugin {
                 ex.printStackTrace();
             }
         });
+
+        new Reflections("me.ma1de.practice").getSubTypesOf(Listener.class).forEach(clazz -> {
+            try {
+                Bukkit.getPluginManager().registerEvents(clazz.newInstance(), this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -93,5 +107,7 @@ public class Practice extends JavaPlugin {
     protected void setupManagers() {
         this.arenaManager = new ArenaManager();
         this.ladderManager = new LadderManager();
+        this.matchManager = new MatchManager();
+        this.duelHandler = new DuelHandler();
     }
 }
