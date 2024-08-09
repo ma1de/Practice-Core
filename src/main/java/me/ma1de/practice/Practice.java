@@ -13,6 +13,9 @@ import me.ma1de.practice.manager.StorageManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Getter(AccessLevel.PUBLIC)
 public class Practice extends JavaPlugin {
     @Getter(AccessLevel.PUBLIC)
@@ -21,6 +24,8 @@ public class Practice extends JavaPlugin {
     private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();
+
+    private final ExecutorService service = Executors.newFixedThreadPool(4);
 
     private MongoClient client;
     private MongoDatabase mongoDatabase;
