@@ -7,13 +7,12 @@ import lombok.Setter;
 import me.ma1de.practice.Practice;
 import me.ma1de.practice.arena.Arena;
 import me.ma1de.practice.ladder.Ladder;
-import me.ma1de.practice.match.event.impl.MatchEndEvent;
-import me.ma1de.practice.match.event.impl.MatchPreStartEvent;
-import me.ma1de.practice.match.event.impl.MatchStartEvent;
+import me.ma1de.practice.match.event.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class Match {
     private final Arena arena;
     private final Ladder ladder;
     private final List<MatchTeam> teams;
-    private final List<UUID> deadPlayers;
+    private final List<UUID> deadPlayers, spectators;
     @Setter private MatchTeam winner;
     @Setter private long startedAt, endedAt;
     private final boolean ranked;
@@ -44,6 +43,7 @@ public class Match {
         this.ranked = ranked;
 
         this.deadPlayers = Lists.newArrayList();
+        this.spectators = Lists.newArrayList();
         this.winner = null;
         this.started = false;
         this.startedAt = 0L;
@@ -75,11 +75,59 @@ public class Match {
         this.startCountdown();
     }
 
+    public void addSpectator(UUID uuid, boolean silent) {
+        Player player = Bukkit.getPlayer(uuid);
+        Preconditions.checkNotNull(player);
+
+        if ((System.currentTimeMillis() - getStartedAt()) < 5000L) {
+            player.sendMessage(ChatColor.RED + "You can't spectate this match yet.");
+            return;
+        }
+
+        MatchSpectateStartEvent event = new MatchSpectateStartEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            player.sendMessage(ChatColor.RED + "You can't spectate this match.");
+            return;
+        }
+
+        this.getSpectators().add(uuid);
+
+        Location spawn = arena.getSpectatorSpawn();
+        player.teleport(spawn);
+
+        if (!silent) {
+            for (MatchTeam team : teams) {
+                team.forEach(p -> p.sendMessage(ChatColor.YELLOW + player.getName() + " started spectating."));
+            }
+        }
+    }
+
+    public void removeSpectator(UUID uuid, boolean silent) {
+        Preconditions.checkArgument(getSpectators().contains(uuid));
+
+        Player player = Bukkit.getPlayer(uuid);
+        Preconditions.checkNotNull(player);
+
+        Bukkit.getPluginManager().callEvent(new MatchSpectateEndEvent(player, this));
+        player.teleport(new Location(Bukkit.getWorld("world"), 0, 100, 0));
+
+        if (!silent) {
+            for (MatchTeam team : teams) {
+                team.forEach(p -> p.sendMessage(ChatColor.YELLOW + player.getName() + " stopped spectating."));
+            }
+        }
+    }
+
     public void endMatch(MatchTeam winner) {
         Bukkit.getPluginManager().callEvent(new MatchEndEvent(this));
 
         this.setEnded(true);
-        this.setWinner(winner);
+
+        if (winner != null) {
+            this.setWinner(winner);
+        }
 
         this.setEndedAt(System.currentTimeMillis());
 
@@ -100,14 +148,18 @@ public class Match {
             public void run() {
                 for (MatchTeam team : teams) {
                     if (countdown == 0) {
+                        MatchStartEvent event = new MatchStartEvent(Match.this);
+                        Bukkit.getPluginManager().callEvent(event);
+
+                        if (event.isCancelled()) {
+                            Match.this.endMatch(null);
+                            return;
+                        }
+
                         team.forEach(p -> {
                             p.sendMessage(ChatColor.YELLOW + "Match started!");
                             p.playSound(p.getLocation(), Sound.NOTE_PLING, 1f, -1f);
                         });
-
-                        Bukkit.getPluginManager().callEvent(new MatchStartEvent(Match.this));
-
-                        cancel();
                         return;
                     }
 
