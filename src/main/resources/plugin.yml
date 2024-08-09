@@ -1,4 +1,3 @@
 name: Practice
-main: me.ma1de.practice.bukkit.PracticePlugin
+main: me.ma1de.practice.Practice
 version: 1.0
-api-version: 1.20

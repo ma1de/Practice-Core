@@ -1,4 +1,4 @@
 MONGO:
-  HOST: "localhost"
+  ADDRESS: "127.0.0.1"
   PORT: 27017
-  DATABASE: "Practice"
+  NAME: "Practice"
