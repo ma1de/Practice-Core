@@ -1,5 +1,6 @@
 package me.ma1de.practice.match;
 
+import com.avaje.ebeaninternal.server.idgen.UuidIdGenerator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -12,10 +13,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.util.MojangNameLookup;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -49,6 +52,10 @@ public class Match {
         this.startedAt = 0L;
         this.ended = false;
         this.endedAt = 0L;
+    }
+
+    public Optional<MatchTeam> getTeam(UUID uuid) {
+        return teams.stream().filter(team -> team.getUuids().contains(uuid)).findAny();
     }
 
     public void startMatch() {
@@ -117,6 +124,38 @@ public class Match {
             for (MatchTeam team : teams) {
                 team.forEach(p -> p.sendMessage(ChatColor.YELLOW + player.getName() + " stopped spectating."));
             }
+        }
+    }
+
+    public void markDead(UUID uuid) {
+        Optional<MatchTeam> optTeam = getTeam(uuid);
+
+        Preconditions.checkArgument(optTeam.isPresent());
+
+        Player player = Bukkit.getPlayer(uuid);
+
+        if (player == null) {
+            String name = MojangNameLookup.lookupName(uuid);
+
+            for (MatchTeam team : teams) {
+                team.forEach(p -> p.sendMessage(ChatColor.YELLOW + name + " disconnected."));
+
+                if (!team.getUuids().contains(uuid)) {
+                    return;
+                }
+
+                team.getUuids().remove(uuid);
+            }
+            return;
+        }
+
+        Bukkit.getPluginManager().callEvent(new MatchPlayerDeathEvent(player, optTeam.get(), this));
+
+        player.spigot().respawn();
+        this.addSpectator(uuid, true);
+
+        if (deadPlayers.size() >= optTeam.get().getUuids().size()) {
+            this.endMatch(teams.stream().filter(team -> !team.equals(optTeam.get())).findAny().orElse(null));
         }
     }
 
