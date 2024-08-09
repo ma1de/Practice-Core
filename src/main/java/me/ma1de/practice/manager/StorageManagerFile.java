@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.Practice;
 import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -39,10 +40,16 @@ public class StorageManagerFile<T> implements StorageManager<T> {
             FileUtils.writeStringToFile(file, "[]");
         }
 
-        objects = Practice.getInstance().getGson().fromJson(
-                FileUtils.readFileToString(file),
-                new TypeToken<List<T>>() {}.getType()
-        );
+        try {
+            objects = Practice.getInstance().getGson().fromJson(
+                    FileUtils.readFileToString(file),
+                    new TypeToken<List<T>>() {}.getType()
+            );
+        } catch (Exception ex) {
+            Bukkit.getLogger().severe("Unable to load " + this.getClass().getName() + ": " + ex.getMessage() + " (" + ex.getClass().getName() + ")");
+            Bukkit.getLogger().severe("Shutting down...");
+            System.exit(0);
+        }
     }
 
     @Override
@@ -52,9 +59,20 @@ public class StorageManagerFile<T> implements StorageManager<T> {
             writer.write("");
         }
 
+        String serialized;
+
+        try {
+            serialized = Practice.getInstance().getGson().toJson(objects);
+        } catch (Exception ex) {
+            Bukkit.getLogger().severe("Unable to serialize a list of objects in " + this.getClass().getName() + ": " + ex.getMessage() + " (" + ex.getClass().getName() + ")");
+            Bukkit.getLogger().severe("Shutting down...");
+            System.exit(0);
+            return;
+        }
+
         FileUtils.writeStringToFile(
                 file,
-                Practice.getInstance().getGson().toJson(objects)
+                serialized
         );
     }
 }

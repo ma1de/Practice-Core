@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import lombok.Getter;
 import me.ma1de.practice.Practice;
 import org.bson.Document;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 
@@ -38,10 +39,17 @@ public class StorageManagerDatabase<T> implements StorageManager<T> {
     @SuppressWarnings("deprecation")
     public void onShutdown() {
         for (Document doc : collection.find()) {
-            T objSerialized = Practice.getInstance().getGson().fromJson(
-                    doc.toJson(),
-                    new TypeToken<T>() {}.getType()
-            );
+            T objSerialized;
+
+            try {
+                objSerialized = Practice.getInstance().getGson().fromJson(
+                        doc.toJson(),
+                        new TypeToken<T>() {}.getType()
+                );
+            } catch (Exception ex) {
+                Bukkit.getLogger().severe("Unable to serialize an object: " + ex.getMessage() + "(" + ex.getClass().getName() + ")");
+                continue; // null safety
+            }
 
             if (objects.contains(objSerialized)) {
                 continue;
