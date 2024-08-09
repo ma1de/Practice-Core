@@ -7,12 +7,11 @@ Practice core made for Minecraft
 > This code wasn't tested
 
 # ⭐ Features
-Kit system, arena system, match system - everything is saved in MongoDB<br>
-so you can restart the server and your data is not gonna be lost.<br>
+Data is being saved in both MongoDB and JSON files.
 <br>
-Queue system (Ranked and Unranked) with a unique algorithm<br>
+Queue system (Ranked and Unranked)<br>
 <br>
-[TODO] GUI for managing arenas, kits, matches, etc.<br>
+[TODO] GUI for managing arenas, customizable kits, etc.<br>
 <br>
 [TODO] Tournaments, events
 
@@ -21,8 +20,8 @@ Queue system (Ranked and Unranked) with a unique algorithm<br>
 > This list is gonna be updated
 
 MongoDB <br>
-Spigot API (1.20.1) <br>
-Java (^18) <br>
+Spigot API (1.8.8) <br>
+Java 1.8<br>
 Maven<br>
 (Not required, but recommended) Linux
 
