@@ -5,11 +5,10 @@ import io.leangen.geantyref.TypeToken;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.Practice;
-import org.apache.commons.io.FileUtils;
+import me.ma1de.practice.util.FileUtil;
 import org.bukkit.Bukkit;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.List;
 
 @Getter
@@ -37,12 +36,12 @@ public class StorageManagerFile<T> implements StorageManager<T> {
                 throw new Exception();
             }
 
-            FileUtils.writeStringToFile(file, "[]");
+            FileUtil.writeToFile(file, "[]");
         }
 
         try {
             objects = Practice.getInstance().getGson().fromJson(
-                    FileUtils.readFileToString(file),
+                    FileUtil.readFile(file),
                     new TypeToken<List<T>>() {}.getType()
             );
         } catch (Exception ex) {
@@ -55,10 +54,6 @@ public class StorageManagerFile<T> implements StorageManager<T> {
     @Override
     @SneakyThrows
     public void onShutdown() {
-        try (PrintWriter writer = new PrintWriter(file)) {
-            writer.write("");
-        }
-
         String serialized;
 
         try {
@@ -70,7 +65,8 @@ public class StorageManagerFile<T> implements StorageManager<T> {
             return;
         }
 
-        FileUtils.writeStringToFile(
+
+        FileUtil.writeToFile(
                 file,
                 serialized
         );
