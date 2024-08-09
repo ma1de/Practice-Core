@@ -9,7 +9,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.arena.ArenaManager;
 import me.ma1de.practice.ladder.LadderManager;
-import me.ma1de.practice.manager.StorageManager;
+import me.ma1de.practice.manager.StorageManagerDatabase;
+import me.ma1de.practice.manager.StorageManagerFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
@@ -49,7 +50,15 @@ public class Practice extends JavaPlugin {
 
         this.setupManagers();
 
-        new Reflections("me.ma1de.practice").getSubTypesOf(StorageManager.class).forEach(manager -> {
+        new Reflections("me.ma1de.practice").getSubTypesOf(StorageManagerFile.class).forEach(manager -> {
+            try {
+                manager.newInstance().onLoad();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        new Reflections("me.ma1de.practice").getSubTypesOf(StorageManagerDatabase.class).forEach(manager -> {
             try {
                 manager.newInstance().onLoad();
             } catch (Exception ex) {
@@ -62,7 +71,15 @@ public class Practice extends JavaPlugin {
     public void onDisable() {
         instance = null;
 
-        new Reflections("me.ma1de.practice").getSubTypesOf(StorageManager.class).forEach(manager -> {
+        new Reflections("me.ma1de.practice").getSubTypesOf(StorageManagerFile.class).forEach(manager -> {
+            try {
+                manager.newInstance().onShutdown();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        new Reflections("me.ma1de.practice").getSubTypesOf(StorageManagerDatabase.class).forEach(manager -> {
             try {
                 manager.newInstance().onShutdown();
             } catch (Exception ex) {

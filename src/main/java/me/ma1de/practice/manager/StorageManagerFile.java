@@ -1,7 +1,7 @@
 package me.ma1de.practice.manager;
 
 import com.google.common.collect.Lists;
-import io.leangen.geantyref.TypeToken;
+import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.ma1de.practice.Practice;
