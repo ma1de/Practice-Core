@@ -13,6 +13,7 @@ import me.ma1de.practice.ladder.LadderManager;
 import me.ma1de.practice.manager.StorageManagerDatabase;
 import me.ma1de.practice.manager.StorageManagerFile;
 import me.ma1de.practice.match.MatchManager;
+import me.ma1de.practice.queue.QueueManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,7 +39,9 @@ public class Practice extends JavaPlugin {
     private ArenaManager arenaManager;
     private LadderManager ladderManager;
     private MatchManager matchManager;
+    private QueueManager queueManager;
     private DuelHandler duelHandler;
+
 
     @Override
     @SneakyThrows
@@ -113,6 +116,9 @@ public class Practice extends JavaPlugin {
         this.arenaManager = new ArenaManager();
         this.ladderManager = new LadderManager();
         this.matchManager = new MatchManager();
+        this.queueManager = new QueueManager();
         this.duelHandler = new DuelHandler();
+
+        this.queueManager.prepopulate();
     }
 }
